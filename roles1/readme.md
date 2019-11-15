@@ -68,11 +68,6 @@ vi test.yml
 ```
 ```yml
 ---
-# tasks file for subrole1
-- name: Test 3 - Import var
-  debug:
-    msg: "{{ rb_commonrole_name }}"
-(ansible) [dorus@dorus-pc roles_1]$ cat test.yml 
 - hosts: localhost
   tasks:
     - include_role:
