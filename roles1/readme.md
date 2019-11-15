@@ -1,3 +1,5 @@
+> This directory that this page is in is the full ansible directory that you'll have at the end of this tutorial.
+
 For your first ansible directory, find a nice spot where you want to create it, and then make a roles directory:
 ```bash
 mkdir roles
