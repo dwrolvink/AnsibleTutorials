@@ -1,4 +1,6 @@
 - hosts: localhost
-  tasks:
+tasks:
+    - include_role:
+      name: commonrole
     - include_role:
         name: subrole1
