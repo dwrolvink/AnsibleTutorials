@@ -1,3 +1,5 @@
+>This exercise does not list every step, consult the code in this repo to see exactly how to do that which is described here.
+
 # Including global variables with roles
 Any sizeable Ansible project will benefit from putting playbooks into separate folders. However, this will mess with automatically
 loading in group_vars, as Ansible can't find the group_vars folder, even when you call your playbook from the root. 
@@ -10,6 +12,8 @@ to edit all our playbooks to accommodate this change.
 
 Luckily, we can just make a role that will do this for us. We can make this role a dependency for each role that needs global
 variables to work, and if we need global variables directly in a playbook, we can call it manually there.
+
+
 
 # Creating ansible.cfg
 When we start putting playbooks in subdirectories, ansible will not be able to find the roles/ directory anymore. As opposed to 
