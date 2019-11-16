@@ -1,64 +1,35 @@
-In the last exercise:
-> Now, if we can say that commonrole will always have to be called before subrole1 is called, then we can add a dependency to 
-subrole1. This will be achieved in the next section.
+# Including global variables with roles
+Any sizeable Ansible project will benefit from putting playbooks into separate folders. However, this will mess with automatically
+loading in group_vars, as Ansible can't find the group_vars folder, even when you call your playbook from the root. 
+The Ansible dev team has shown to have [no intention of solving this issue](https://github.com/ansible/ansible/issues/12862).
 
-So, let's do that now. To change our current code to enable automatically loading commonrole before subrole1, we have to make the
-following changes:
-- add commonrole as a dependency to subrole1
-- remove the call to commonrole in the playbook
-- test if commonrole is indeed loaded automatically before loading subrole1. 
+Solving this might involve manually [loading the variable files at the beginning of every playbook](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#defining-variables-in-files).
 
-### Add commonrole as a dependency to role1
-Open ./roles/subrole1/meta/main.yml, and all the way at the bottom, change:
+Though this works, if we change the names of any files, or want to add extra files that always have to be loaded in, we'll have
+to edit all our playbooks to accommodate this change.
+
+Luckily, we can just make a role that will do this for us. We can make this role a dependency for each role that needs global
+variables to work, and if we need global variables directly in a playbook, we can call it manually there.
+
+# Creating ansible.cfg
+When we start putting playbooks in subdirectories, ansible will not be able to find the roles/ directory anymore. As opposed to 
+the group_vars problem, this is solvable. We do this by creating a configuration file called `ansible.cfg` in our ansible root 
+directory:
+
 ```yml
-dependencies: []
-  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
-  # if you add dependencies to this list.
+[defaults]
+roles_path = ./roles/
 ```
-to:
-```yml
-dependencies:
-  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
-  # if you add dependencies to this list.
-  - role: commonrole
-```
+# Creating roles/load_config
+Look at the previous exercises for how to create empty roles. Just like before, we add some data in roles/load_config/defaults/main.yml and then we use `set_facts` in roles/load_config/tasks/main.yml to load these into scope. We set roles/subrole1/meta/main.yml so that it has load_config as a dependency, and in roles/subrole1/tasks/main.yml we debug some of the config set by
+load_config to test whether the variables are loaded.
 
-### Remove call to commonrole in the playbook
-Edit ./test.yml to:
-```yml
-- hosts: localhost
-  tasks:
-#    - include_role:
-#      name: commonrole
-    - include_role:
-        name: subrole1
-```
+So, basically the same steps as the last exercise. 
 
-### Test new code
+# Move test.yml, and test
+We move test.yml to test/test.yml, edit it to debug the variable loaded in by load_config. Then we run it from the root:
 ```bash
-ansible-playbook -i localhost test.yml -v
+ansible-playbook -i localhost test/test.yml -v
 ```
-```
-PLAY [localhost] ***********************************************************************************
 
-TASK [Gathering Facts] *****************************************************************************
-ok: [localhost]
 
-TASK [include_role : subrole1] *********************************************************************
-
-TASK [commonrole : Test 1 - Load default value] ****************************************************
-ok: [localhost] => {
-    "msg": "Mr. Potato"
-}
-
-TASK [commonrole : Test 2 - Export var] ************************************************************
-ok: [localhost] => {"ansible_facts": {"rb_commonrole_name": "Mr. Potato"}, "changed": false}
-
-TASK [subrole1 : Test 3 - Import var] **************************************************************
-ok: [localhost] => {
-    "msg": "Mr. Potato"
-}
-
-PLAY RECAP *****************************************************************************************
-localhost                  : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
-``
