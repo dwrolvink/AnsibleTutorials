@@ -15,6 +15,7 @@ If you don't use pipenv, you can install ansible by running `pip install ansible
 # Roles
 - [Making and calling roles](roles1)
 - [Role dependencies](roles2)
+- [Using roles to provide global config](include_vars1)
 
 
 
