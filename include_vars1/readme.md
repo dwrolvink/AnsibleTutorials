@@ -15,7 +15,7 @@ variables to work, and if we need global variables directly in a playbook, we ca
 
 
 
-# Creating ansible.cfg
+## Creating ansible.cfg
 When we start putting playbooks in subdirectories, ansible will not be able to find the roles/ directory anymore. As opposed to 
 the group_vars problem, this is solvable. We do this by creating a configuration file called `ansible.cfg` in our ansible root 
 directory:
@@ -24,13 +24,13 @@ directory:
 [defaults]
 roles_path = ./roles/
 ```
-# Creating roles/load_config
+## Creating roles/load_config
 Look at the previous exercises for how to create empty roles. Just like before, we add some data in roles/load_config/defaults/main.yml and then we use `set_facts` in roles/load_config/tasks/main.yml to load these into scope. We set roles/subrole1/meta/main.yml so that it has load_config as a dependency, and in roles/subrole1/tasks/main.yml we debug some of the config set by
 load_config to test whether the variables are loaded.
 
 So, basically the same steps as the last exercise. 
 
-# Move test.yml, and test
+## Move test.yml, and test
 We move test.yml to test/test.yml, edit it to debug the variable loaded in by load_config. Then we run it from the root:
 ```bash
 ansible-playbook -i localhost test/test.yml -v
