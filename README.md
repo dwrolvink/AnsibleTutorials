@@ -6,15 +6,15 @@ This series is mainly keeping track of new things that I learn. As I'm already f
 I'll jump straight to using roles.
 
 # Setup
-You'll find piplock files in my ansible directories. This is because I'm using pipenv to isolate my ansible installation. 
+You'll find piplock files in my repo above. This is because I'm using pipenv to isolate my ansible installation. 
 If you use pipenv too, you can start a virtual environment in a folder with such files by typing `pipenv shell`. It should
-automatically install ansible when starting the virtual environment.
+automatically install ansible when starting the virtual environment in a clone of this repo.
 
 If you don't use pipenv, you can install ansible by running `pip install ansible`. I'm running ansible 2.9.1.
 
 # Roles
 - [Making and calling roles](roles1)
-- [Role dependencies]()
+- [Role dependencies](roles2)
 
 
 
