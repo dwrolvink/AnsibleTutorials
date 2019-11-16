@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+    - include_role:
+        name: subrole1
+    - debug:
+        msg: "{{ cfg.location }}"

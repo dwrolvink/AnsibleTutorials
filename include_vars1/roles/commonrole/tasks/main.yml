@@ -1,0 +1,9 @@
+---
+# tasks file for commonrole
+- name: Test 1 - Load default value
+  debug:
+    msg: "{{ commonrole_name }}"
+
+- name: Test 2 - Export var
+  set_fact:
+    rb_commonrole_name: "{{ commonrole_name }}"

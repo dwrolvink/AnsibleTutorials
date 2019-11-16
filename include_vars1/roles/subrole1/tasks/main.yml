@@ -1,0 +1,5 @@
+---
+# tasks file for subrole1
+- name: Test 3 - Import var
+  debug:
+    msg: "{{ cfg }}"

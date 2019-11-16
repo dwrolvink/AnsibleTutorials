@@ -1,0 +1,4 @@
+---
+# tasks file for load_config
+- set_fact:
+    cfg: "{{ load_config_cfg }}"
