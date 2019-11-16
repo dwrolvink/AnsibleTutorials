@@ -5,9 +5,8 @@ Any sizeable Ansible project will benefit from putting playbooks into separate f
 loading in group_vars, as Ansible can't find the group_vars folder, even when you call your playbook from the root. 
 The Ansible dev team has shown to have [no intention of solving this issue](https://github.com/ansible/ansible/issues/12862).
 
-Solving this might involve manually [loading the variable files at the beginning of every playbook](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#defining-variables-in-files).
-
-Though this works, if we change the names of any files, or want to add extra files that always have to be loaded in, we'll have
+Working around this issue might involve manually [loading the variable files at the beginning of every playbook](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#defining-variables-in-files).
+Though this works, if we change the names of any of the files, or want to add extra files that always have to be loaded in, we'll have
 to edit all our playbooks to accommodate this change.
 
 Luckily, we can just make a role that will do this for us. We can make this role a dependency for each role that needs global
